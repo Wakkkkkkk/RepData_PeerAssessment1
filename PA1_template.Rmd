@@ -55,11 +55,31 @@ iMeans <- function(frame){
 
 Apply the function over the whole of the list, and convert the result to a vector
 ```{r}
-unlist(lapply(iActivity, iMeans))
+unlist(lapply(iActivity, iMeans)) -> intervalMeans
+print("Number of steps taken")
+print(head(intervalMeans))
 ```
 
 ## Imputing missing values
 
+Get a named vector which gives na locations
+```{r}
+is.na(unlist(lapply(sActivity, daysums))) -> nalist
+```
 
+```{r}
+nearbyNonNAs <- function(index, nalocs){
+    indexes <- NA
+    for(i in (index-2):(index+2)){
+        if(i>0 && i<=length(nalocs) && nalocs[i] == FALSE){
+            if(is.na(indexes))
+                i -> indexes
+            else
+                c(indexes,i)->indexes
+        }
+    }
+}
+    
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
