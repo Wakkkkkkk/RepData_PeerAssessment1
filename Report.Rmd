@@ -1,0 +1,4 @@
+#Report on Programming Assignment 1
+```{r Loading the Data,cache=TRUE}
+read.csv()
+```
