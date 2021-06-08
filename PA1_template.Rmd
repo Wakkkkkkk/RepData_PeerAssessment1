@@ -49,7 +49,7 @@ median(unlist(lapply(sActivity, daysums)), na.rm= TRUE)
 Create a function to take the mean of all steps across any given interval
 ```{r}
 iMeans <- function(frame){
-    sum(frame$steps, na.rm = TRUE)
+    mean(frame$steps, na.rm = TRUE)
 }
 ```
 
@@ -58,6 +58,10 @@ Apply the function over the whole of the list, and convert the result to a vecto
 unlist(lapply(iActivity, iMeans)) -> intervalMeans
 print("Number of steps taken")
 print(head(intervalMeans))
+```
+Using this we can get a time plot of the average number of steps taken at any given time during the day
+```{r}
+plot(names(intervalMeans),intervalMeans, type = "l", ylab = "Mean Number of Steps Taken", xlab = "Number of Minutes Since Midnight", main = "Number of steps taken at various points during the day")
 ```
 
 ## Imputing missing values
@@ -113,3 +117,4 @@ for(i in 1:length(nalist)){
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
