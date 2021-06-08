@@ -1,4 +1,27 @@
-#Report on Programming Assignment 1
-```{r Loading the Data,cache=TRUE}
-read.csv()
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
+
+
+## Loading and preprocessing the data
+
+```{r Reading the Data, cache=TRUE}
+read.csv("./activity/activity.csv") -> activity
 ```
+
+## What is mean total number of steps taken per day?
+
+
+
+## What is the average daily activity pattern?
+
+
+
+## Imputing missing values
+
+
+
+## Are there differences in activity patterns between weekdays and weekends?
