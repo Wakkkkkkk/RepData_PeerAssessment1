@@ -38,11 +38,16 @@ daysums <- function(frame){
 
 Apply the function over the whole of the list, convert the result to a vector, and take the mean of that vector
 ```{r}
+unlist(lapply(sActivity, daysums)) -> dailySteps
 print("Mean number of steps taken each day")
-mean(unlist(lapply(sActivity, daysums)), na.rm= TRUE)
+mean(dailySteps, na.rm= TRUE)
 print("Median number of steps taken each day")
-median(unlist(lapply(sActivity, daysums)), na.rm= TRUE)
+median(dailySteps, na.rm= TRUE)
 ```
+```{r}
+unlist(lapply(sActivity, daysums))
+```
+
 
 ## What is the average daily activity pattern?
 
@@ -61,7 +66,7 @@ print(head(intervalMeans))
 ```
 Using this we can get a time plot of the average number of steps taken at any given time during the day
 ```{r}
-plot(names(intervalMeans),intervalMeans, type = "l", ylab = "Mean Number of Steps Taken", xlab = "Number of Minutes Since Midnight", main = "Number of steps taken at various points during the day")
+plot(names(intervalMeans),intervalMeans, type = "l", ylab = "Mean Number of Steps Taken", xlab = "Number of Minutes Since Midnight", main = "Number of Steps Taken at Various Points During the Day")
 ```
 
 ## Imputing missing values
