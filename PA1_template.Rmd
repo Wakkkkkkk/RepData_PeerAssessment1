@@ -8,13 +8,38 @@ output:
 
 ## Loading and preprocessing the data
 
-```{r Reading the Data, cache=TRUE}
+Loading the data into R
+```{r cache=TRUE}
 read.csv("./activity/activity.csv") -> activity
+```
+
+```{r cache=TRUE}
+activity$date
+```
+
+```{r}
+as.Date(activity$date)->activity$date
+```
+
+
+Splitting it by date
+```{r}
+split(activity, as.factor(activity$date)) ->sActivity
 ```
 
 ## What is mean total number of steps taken per day?
 
+Create a function to take the sum of all steps on any given day
+```{r}
+daysums <- function(frame){
+    sum(frame$steps)
+}
+```
 
+Apply the function over the whole of the list, convert the result to a vector, and take the mean of that vector
+```{r}
+mean(unlist(lapply(sActivity, daysums)), na.rm= TRUE)
+```
 
 ## What is the average daily activity pattern?
 
