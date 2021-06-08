@@ -45,7 +45,7 @@ print("Median number of steps taken each day")
 median(dailySteps, na.rm= TRUE)
 ```
 ```{r}
-unlist(lapply(sActivity, daysums))
+hist(dailySteps, main = "Histogram of Daily steps", xlab = "Daily Steps")
 ```
 
 
@@ -68,6 +68,11 @@ Using this we can get a time plot of the average number of steps taken at any gi
 ```{r}
 plot(names(intervalMeans),intervalMeans, type = "l", ylab = "Mean Number of Steps Taken", xlab = "Number of Minutes Since Midnight", main = "Number of Steps Taken at Various Points During the Day")
 ```
+```{r}
+print("the 5 minute interval with the highest number of daily steps is")
+names(intervalMeans)[which.max(intervalMeans)]
+```
+
 
 ## Imputing missing values
 
@@ -121,5 +126,10 @@ for(i in 1:length(nalist)){
 }
 ```
 
-## Are there differences in activity patterns between weekdays and weekends?
+This can now be used to create a plot of the daily step numbers including the nas
+```{r}
+unlist(lapply(stepdata, daysums)) -> imputedSteps
+hist(imputedSteps, main = "Histogram of Daily steps with Imputed NAs", xlab = "Daily Steps")
+```
 
+## Are there differences in activity patterns between weekdays and weekends?
