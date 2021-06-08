@@ -13,18 +13,18 @@ Loading the data into R
 read.csv("./activity/activity.csv") -> activity
 ```
 
-```{r cache=TRUE}
-activity$date
-```
-
 ```{r}
 as.Date(activity$date)->activity$date
 ```
 
-
 Splitting it by date
 ```{r}
 split(activity, as.factor(activity$date)) ->sActivity
+```
+
+Splitting it by interval
+```{r}
+split(activity, as.factor(activity$interval)) ->iActivity
 ```
 
 ## What is mean total number of steps taken per day?
@@ -38,12 +38,25 @@ daysums <- function(frame){
 
 Apply the function over the whole of the list, convert the result to a vector, and take the mean of that vector
 ```{r}
+print("Mean number of steps taken each day")
 mean(unlist(lapply(sActivity, daysums)), na.rm= TRUE)
+print("Median number of steps taken each day")
+median(unlist(lapply(sActivity, daysums)), na.rm= TRUE)
 ```
 
 ## What is the average daily activity pattern?
 
+Create a function to take the mean of all steps across any given interval
+```{r}
+iMeans <- function(frame){
+    sum(frame$steps, na.rm = TRUE)
+}
+```
 
+Apply the function over the whole of the list, and convert the result to a vector
+```{r}
+unlist(lapply(iActivity, iMeans))
+```
 
 ## Imputing missing values
 
