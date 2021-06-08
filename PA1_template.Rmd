@@ -68,18 +68,48 @@ is.na(unlist(lapply(sActivity, daysums))) -> nalist
 ```
 
 ```{r}
-nearbyNonNAs <- function(index, nalocs){
+nearbyNonNAs <- function(index, nalocs, range=2){
+    #storing an na in indexes so it can be called later
     indexes <- NA
-    for(i in (index-2):(index+2)){
+    
+    #searches a range of indexes for values
+    for(i in (index-range):(index+range)){
+        
+        #ensures that i is within the bounds where there are values, then
+        #determines if the location has non-na values
         if(i>0 && i<=length(nalocs) && nalocs[i] == FALSE){
-            if(is.na(indexes))
-                i -> indexes
-            else
-                c(indexes,i)->indexes
+            if(is.na(indexes)) #replaces indexes if it is empty
+                {i -> indexes}
+            else #adds to it if it already has a value
+                {c(indexes,i)->indexes}
         }
     }
+    indexes
 }
-    
+```
+
+```{r}
+impute <- function(index, nalocs, daydat) {
+    nearby <- nearbyNonNAs(index, nalocs)
+    daydat[[index]]$steps <- 0
+    for(i in nearby)    {
+        #add the values of nearby non na locations
+        daydat[[index]]$steps + daydat[[i]]$steps -> daydat[[index]]$steps
+    }
+    #divide it by the number added to get the average (floor makes it whole #)
+    daydat[[index]]$steps <- floor(daydat[[index]]$steps/length(nearby))
+    daydat
+}
+```
+
+Bringing it all together, this now takes the average of the nearby values for each non-na interval to fill in the days which have nas. Thus, any long term changes in daily steps will be preserved.
+```{r}
+sActivity -> stepdata
+for(i in 1:length(nalist)){
+    if(nalist[i] == TRUE){
+        stepdata <<- impute(i, nalist, stepdata)
+    }
+}
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
