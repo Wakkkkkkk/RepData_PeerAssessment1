@@ -117,7 +117,7 @@ impute <- function(index, nalocs, daydat) {
 ```
 
 Bringing it all together, this now takes the average of the nearby values for each non-na interval to fill in the days which have nas. Thus, any long term changes in daily steps will be preserved.
-```{r}
+```{r warning=FALSE}
 sActivity -> stepdata
 for(i in 1:length(nalist)){
     if(nalist[i] == TRUE){
@@ -131,6 +131,13 @@ This can now be used to create a plot of the daily step numbers including the na
 unlist(lapply(stepdata, daysums)) -> imputedSteps
 hist(imputedSteps, main = "Histogram of Daily steps with Imputed NAs", xlab = "Daily Steps")
 ```
+```{r}
+print("Mean number of steps taken each day")
+mean(imputedSteps, na.rm= TRUE)
+print("Median number of steps taken each day")
+median(imputedSteps, na.rm= TRUE)
+```
+
 
 ## Are there differences in activity patterns between weekdays and weekends?
 Extract weekday data
