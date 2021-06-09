@@ -137,7 +137,7 @@ mean(imputedSteps, na.rm= TRUE)
 print("Median number of steps taken each day")
 median(imputedSteps, na.rm= TRUE)
 ```
-
+These numbers are about 200 lower than the non-imputed values.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 Extract weekday data
