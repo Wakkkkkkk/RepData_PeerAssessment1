@@ -133,3 +133,47 @@ hist(imputedSteps, main = "Histogram of Daily steps with Imputed NAs", xlab = "D
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+Extract weekday data
+```{r}
+activity -> weekdat
+as.Date(weekdat$date)->weekdat$date
+weekdays.Date(weekdat$date) -> weekdat$date
+
+```
+
+Remove NAs
+```{r}
+weekdat[!is.na(weekdat$steps),1:3]->weekdat
+```
+
+Add a function to convert weekday data into a weekend vs weekday indicator
+```{r}
+isWkd <- function(weekday){
+    ret = TRUE
+    if(weekday == "Saturday" || weekday == "Sunday")
+        ret <- FALSE
+    ret
+}
+```
+
+```{r}
+unlist(lapply(weekdat$date, isWkd)) -> weekdat$isWeekend
+weekdat[weekdat$isWeekend, c(1,3)] -> weekdays
+weekdat[!weekdat$isWeekend, c(1,3)] -> weekends
+```
+
+```{r}
+library(dplyr)
+weekdays %>%
+    group_by(interval) %>% #Groups the data so it can be processed by summarise
+    summarise(steps=mean(steps))->sumweekdays #finds the sum of emissions by year-type pair
+weekends %>%
+    group_by(interval) %>% #Groups the data so it can be processed by summarise
+    summarise(steps=mean(steps))->sumweekends #finds the sum of emissions by year-type pair
+```
+
+```{r}
+par(mfrow=c(2,1))
+plot(sumweekends$interval,sumweekdays$steps, type = "l", ylab = "Mean Number of Steps", xlab = "", main = "Mean Number of Steps Taken by Interval Weekends")
+plot(sumweekends$interval,sumweekends$steps, type = "l", ylab = "", main="", xlab = "Number of Minutes Since Midnight")
+```
